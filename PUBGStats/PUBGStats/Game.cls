@@ -1,6 +1,8 @@
 Class PUBGStats.Game Extends %Persistent
 {
 
+Parameter DSTIME = "AUTO";
+
 Property MatchID As %String [ Required ];
 
 Index MatchIDIndex On MatchID [ IdKey, Unique ];
