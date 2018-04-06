@@ -17,6 +17,8 @@ Property GameMode As %String;
 
 Property GameTimeStamp As %TimeStamp;
 
+Property TelemetryURL As %String;
+
 ClassMethod LoadMatchData(pMatchID As %Integer) As %Status
 {
 	If ##class(PUBGStats.Game).ProcessedGetStored(pMatchID) {
@@ -80,7 +82,8 @@ ClassMethod LoadMatchData(pMatchID As %Integer) As %Status
 			set gamestat.WinPointsDelta = json.included.GetAt(i).attributes.stats.winPointsDelta
 			d gamestat.%Save()
 		} elseif type="asset" {
-			
+			set match.TelemetryURL = json.included.GetAt(i).attributes.URL
+			d match.%Save()
 		} elseif type="roster" {
 			
 		}
@@ -131,13 +134,16 @@ Storage Default
 <Value name="6">
 <Value>GameTimeStamp</Value>
 </Value>
+<Value name="7">
+<Value>TelemetryURL</Value>
+</Value>
 </Data>
 <DataLocation>^PUBGStats.GameD</DataLocation>
 <DefaultData>GameDefaultData</DefaultData>
 <IdLocation>^PUBGStats.GameD</IdLocation>
 <IndexLocation>^PUBGStats.GameI</IndexLocation>
 <StreamLocation>^PUBGStats.GameS</StreamLocation>
-<Type>%Library.CacheStorage</Type>
+<Type>%Storage.Persistent</Type>
 }
 
 }
