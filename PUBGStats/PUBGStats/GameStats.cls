@@ -1,6 +1,8 @@
 Class PUBGStats.GameStats Extends %Persistent
 {
 
+Parameter DSTIME = "AUTO";
+
 Property Player As PUBGStats.Player;
 
 Property Game As PUBGStats.Game;
