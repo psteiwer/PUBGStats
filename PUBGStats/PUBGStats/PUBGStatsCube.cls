@@ -14,7 +14,7 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
   </dimension>
   <dimension name="Rank" disabled="false" hasAll="false" allCaption="All WinPlace" allDisplayName="WinPlace" type="data" calendar="gregorian" iKnowType="entity" hidden="false" showHierarchies="default">
     <hierarchy name="H1" disabled="false" hidden="false">
-      <level name="Rank Group" disabled="false" sourceProperty="WinPlace" list="false" rangeExpression="(1,10]:Top 10;[11,100):Not Top 10;" useDisplayValue="true" useAsFilter="true" hidden="false">
+      <level name="Rank Group" disabled="false" sourceProperty="WinPlace" list="false" rangeExpression="[1,10]:Top 10;[11,100]:Not Top 10;" useDisplayValue="true" useAsFilter="true" hidden="false">
       </level>
       <level name="Rank" disabled="false" sourceProperty="WinPlace" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
       </level>
