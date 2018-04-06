@@ -22,6 +22,16 @@ ClassMethod LoadUs() As %Status
 	quit st
 }
 
+ClassMethod SetAPIKey(pKey As %String, pLimit As %Integer) As %Status
+{
+	set st = $$$OK
+	
+	set ^APIKey("PUBG")=pKey
+	set ^APIKey("PUBG","Limit")=pLimit
+	
+	quit $$$OK
+}
+
 /// Input form of /shards/<region>/<endpoint>
 ClassMethod Requestjson(pGet, ByRef json) As %ZEN.Auxiliary.jsonProvider
 {
