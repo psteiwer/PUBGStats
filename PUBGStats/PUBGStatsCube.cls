@@ -30,6 +30,8 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
   </measure>
   <measure name="Avg Rank" disabled="false" sourceProperty="WinPlace" aggregate="AVG" type="number" hidden="false" searchable="false">
   </measure>
+  <listing name="Game Stats Details" disabled="false" listingType="table" fieldList="Player-&gt;Name,WinPlace As &quot;Rank&quot;,Game-&gt;GameTimeStamp,Game-&gt;GameMode,Kills,Assists,DBNOs,DamageDealt,TimeSurvived,DeathType">
+  </listing>
 </cube>
 }
 
