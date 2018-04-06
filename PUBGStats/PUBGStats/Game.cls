@@ -99,6 +99,9 @@ ClassMethod LoadUnprocessedMatches() As %Status
 		set st=##class(PUBGStats.Game).LoadMatchData(rs.ID)
 		if st {
 			w "Match processed: "_rs.ID,!
+			set match = ##class(PUBGStats.Game).%OpenId(rs.ID)
+			set match.Processed = 1
+			d match.%Save()
 		}
 	}
 	
