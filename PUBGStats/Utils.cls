@@ -71,4 +71,26 @@ ClassMethod Requestjson(pGet, ByRef json) As %ZEN.Auxiliary.jsonProvider
 	quit st
 }
 
+// SAMPLE URL: https://telemetry-cdn.playbattlegrounds.com/bluehole-pubg/pc-na/2018/04/06/02/14/441a15de-3940-11e8-a65f-0a586466e4a0-telemetry.json
+ClassMethod GetTelemetryjson(pURL As %String, Byref json) As %Status
+{
+	set st=$$$OK
+	
+	try {
+		set request=##class(%Net.HttpRequest).%New()
+		set request.Server="telemetry-cdn.playbattlegrounds.com"
+		set request.Https=1
+		set request.Port=443
+		set request.SSLConfiguration="test"
+		set st= request.Get(pURL)
+		quit:$$$ISERR(st)
+		
+		set json = ##class(%DynamicAbstractObject).%FromJSON(request.HttpResponse.Data)
+	} catch ex {
+		set st = $system.Status.GetErrorText(ex)
+	}
+	
+	quit st
+}
+
 }
