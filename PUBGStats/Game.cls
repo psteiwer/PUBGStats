@@ -19,6 +19,21 @@ Property GameTimeStamp As %TimeStamp;
 
 Property TelemetryURL As %String (MAXLEN = 250);
 
+ClassMethod CreateMatch(pMatchId) As %Status
+{
+	if '##class(PUBGStats.Game).%ExistsId(pMatchId) {
+		// Since this match data does not already exist, add match entry
+		set match = ##class(PUBGStats.Game).%New()
+		set match.MatchID = pMatchId
+		set st= match.%Save()
+		if st {
+			w "Match data added: ",pMatchId,!
+		}
+	}
+	
+	quit st
+}
+
 ClassMethod LoadMatchData(pMatchID As %Integer) As %Status
 {
 	If ##class(PUBGStats.Game).ProcessedGetStored(pMatchID) {
