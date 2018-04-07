@@ -4,20 +4,55 @@ Property URL As %String;
 
 Property Game As PUBGStats.Game;
 
-Property Events As Array Of PUBGStats.Telemetry.Event;
+Property Events As List Of PUBGStats.Telemetry.Event;
 
 ClassMethod ProcessTelemetryjson(Byref pJSON) As %Status
 {
 	set st=$$$OK
 	
+	set telemetry = ##class(PUBGStats.Telemetry).%New()
+	
 	set event = pJSON.%GetIterator()
 	while event.%GetNext(.key,.val) {
 		if val."_T" = "LogMatchDefinition" {
-			// This is match info, nothing useful at this time
+			set matchid = $piece(val.MatchId,".",*)
+			set st=##class(PUBGStats.Game).CreateMatch(matchid)
+			set match = ##class(PUBGStats.Game).%OpenId(matchid)
+			set telemetry.Game = match
+			set st=##class(PUBGStats.Telemetry).DeleteTelemetryForMatch(matchid)
 		} elseif val."_T" = "LogPlayerPosition" {
 			// May be useful, not yet sure
 		} elseif val."_T" = "LogPlayerKill" {
-			w:((val.killer.name="hungryunicorn")||(val.victim.name="hungryunicorn")||(val.killer.name="drawkcab2138")||(val.victim.name="drawkcab2138")) key_": "_val.killer.name_" killed "_val.victim.name_" with "_val.damageCauserName,!
+			//w:((val.killer.name="hungryunicorn")||(val.victim.name="hungryunicorn")||(val.killer.name="drawkcab2138")||(val.victim.name="drawkcab2138")) key_": "_val.killer.name_" killed "_val.victim.name_" with "_val.damageCauserName,!
+			set kill = ##class(PUBGStats.Telemetry.LogPlayerKill).%New()
+			if val.killer'="" {
+				set killer = ##class(PUBGStats.Telemetry.Player).%New()
+				d killer.PlayerSetObjectId(val.killer.accountId)
+				set killer.Health = val.killer.health
+				set location = ##class(PUBGStats.Telemetry.Location).%New()
+				set location.x=val.killer.location.x
+				set location.y=val.killer.location.y
+				set location.z=val.killer.location.z
+				set killer.Location = location
+				set kill.Killer = killer
+			}
+			if val.victim'="" {
+				set victim = ##class(PUBGStats.Telemetry.Player).%New()
+				d victim.PlayerSetObjectId(val.victim.accountId)
+				set victim.Health = val.victim.health
+				set location = ##class(PUBGStats.Telemetry.Location).%New()
+				set location.x=val.victim.location.x
+				set location.y=val.victim.location.y
+				set location.z=val.victim.location.z
+				set victim.Location = location
+				set kill.Victim = victim
+			}
+			set kill.DamageCauserName=val.damageCauserName
+			set kill.DamageTypeCategory=val.damageTypeCategory
+			set kill.TimeStamp = $system.SQL.DATEADD("hour",-3,$zdth($translate(val."_D","TZ"," "),3))
+			set kill.Telemetry=telemetry
+			set st=kill.%Save()
+			do telemetry.Events.Insert(kill)
 		} elseif val."_T" = "LogPlayerTakeDamage" {
 			if val.damage'=0 {
 				// This means the player was not already down when they took damage
@@ -29,10 +64,33 @@ ClassMethod ProcessTelemetryjson(Byref pJSON) As %Status
 		} elseif val."_T" = "LogPlayerPosition" {
 			// May be useful to track movement of a player
 		}
+		
+		if '$IsObject($G(match)) {
+			set st = $$$ERROR(5001,"No Match") 
+			quit 
+		}
+	}
+	
+	if '$$$ISERR(st) {
+		set st=telemetry.%Save()
 	}
 	
 	quit st
 }
+
+
+ClassMethod DeleteTelemetryForMatch(pMatchId As %String) As %Status
+{
+	set st=$$$OK
+	
+	
+	d ##class(%SQL.Statement).%ExecDirect(,"DELETE FROM PUBGStats_Telemetry.LogPlayerKill WHERE Telemetry->Game->%ID=?",pMatchId)
+	d ##class(%SQL.Statement).%ExecDirect(,"DELETE FROM PUBGStats.Telemetry WHERE Game->%ID=?",pMatchId)
+	
+	quit st
+}
+
+
 Storage Default
 {
 <Data name="Events">
