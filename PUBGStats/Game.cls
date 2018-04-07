@@ -17,7 +17,7 @@ Property GameMode As %String;
 
 Property GameTimeStamp As %TimeStamp;
 
-Property TelemetryURL As %String;
+Property TelemetryURL As %String (MAXLEN = 250);
 
 ClassMethod LoadMatchData(pMatchID As %Integer) As %Status
 {
