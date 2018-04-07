@@ -1,5 +1,5 @@
 /// 
-Class PUBGStats.PUBGStatsCube Extends %DeepSee.CubeDefinition [ DependsOn = PUBGStats.GameStats, ProcedureBlock ]
+Class PUBGStats.Cubes.Stats Extends %DeepSee.CubeDefinition [ DependsOn = PUBGStats.GameStats, ProcedureBlock ]
 {
 
 /// Cube definition from Architect.
