@@ -93,4 +93,9 @@ ClassMethod GetTelemetryjson(pURL As %String, Byref json) As %Status
 	quit st
 }
 
+ClassMethod ConvertTimeStamp(pTimeStamp As %String) As %TimeStamp
+{
+	quit $system.SQL.DATEADD("hour",-3,$zdth($translate(pTimeStamp,"TZ"," "),3))
+}
+
 }

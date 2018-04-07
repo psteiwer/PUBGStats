@@ -52,7 +52,7 @@ ClassMethod LoadMatchData(pMatchID As %Integer) As %Status
 	set match = ##class(PUBGStats.Game).%OpenId(pMatchID)
 	set match.Duration = json.data.attributes.duration
 	set match.GameMode = json.data.attributes.gameMode
-	set match.GameTimeStamp =  $system.SQL.DATEADD("hour",-3,$zdth($translate(json.data.attributes.createdAt,"TZ"," "),3))
+	set match.GameTimeStamp = ##class(PUBGStats.Utils).ConvertTimeStamp(json.data.attributes.createdAt)
 	
 	set st=match.%Save()
 	// Add participant data
