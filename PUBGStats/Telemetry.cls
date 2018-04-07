@@ -50,6 +50,7 @@ ClassMethod ProcessTelemetryjson(Byref pJSON) As %Status
 			set kill.DamageCauserName=val.damageCauserName
 			set kill.DamageTypeCategory=val.damageTypeCategory
 			set kill.TimeStamp = ##class(PUBGStats.Utils).ConvertTimeStamp(val."_D")
+			set kill.Distance = val.distance
 			set kill.Telemetry=telemetry
 			set st=kill.%Save()
 			do telemetry.Events.Insert(kill)
