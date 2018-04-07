@@ -44,17 +44,7 @@ ClassMethod GetMatchesForPlayer(pPlayerNames As %String) As %Status
 	for i=1:1:json.data.Size {
 		for j=1:1:json.data.GetAt(i).relationships.matches.data.Size {
 			set matchId = json.data.GetAt(i).relationships.matches.data.GetAt(j).id
-			
-			if '##class(PUBGStats.Game).%ExistsId(matchId) {
-				// Since this match data does not already exist, add match entry
-				set match = ##class(PUBGStats.Game).%New()
-				set match.MatchID = matchId
-				set st= match.%Save()
-				if st {
-					w "Match data added: "_matchId,!
-				}
-			}
-			
+			set st = ##class(PUBGStats.Game).CreateMatch(matchId)
 		}
 	}
 	
@@ -76,7 +66,7 @@ Storage Default
 <IdLocation>^PUBGStats.PlayerD</IdLocation>
 <IndexLocation>^PUBGStats.PlayerI</IndexLocation>
 <StreamLocation>^PUBGStats.PlayerS</StreamLocation>
-<Type>%Library.CacheStorage</Type>
+<Type>%Storage.Persistent</Type>
 }
 
 }
