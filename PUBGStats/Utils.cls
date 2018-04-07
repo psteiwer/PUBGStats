@@ -22,6 +22,18 @@ ClassMethod LoadUs() As %Status
 	quit st
 }
 
+ClassMethod LoadStreamers() As %Status
+{
+	set st=$$$OK
+	
+	set st=##class(PUBGStats.Player).GetMatchesForPlayer("VissGames,DrDisRespect")
+	//quit:'st st
+	set st=##class(PUBGStats.Utils).SynchronizeAll()
+	//quit:'st st
+	
+	quit st
+}
+
 ClassMethod SetAPIKey(pKey As %String, pLimit As %Integer) As %Status
 {
 	set st = $$$OK
