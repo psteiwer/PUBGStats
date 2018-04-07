@@ -56,6 +56,9 @@ ClassMethod Requestjson(pGet, ByRef json) As %ZEN.Auxiliary.jsonProvider
 		do request.SetHeader("Authorization",^APIKey("PUBG"))
 		do request.SetHeader("Accept","application/vnd.api+json")
 		do {
+			if $i(count)>1 {
+				hang 1
+			}
 			set rs=##class(%SQL.Statement).%ExecDirect(,"SELECT COUNT(*) As Num FROM PUBGStats.RequestLog WHERE TimeRequested > DATEADD(s,-61,CURRENT_TIMESTAMP)")
 			d rs.%Next()
 			w rs.Num,!
