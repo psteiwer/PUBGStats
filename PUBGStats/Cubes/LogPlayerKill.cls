@@ -30,7 +30,7 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
       </level>
     </hierarchy>
   </dimension>
-  <measure name="Distance" disabled="false" sourceProperty="Distance" aggregate="SUM" type="number" hidden="false" searchable="false">
+  <measure name="Distance" disabled="false" sourceExpression="%source.Distance/100" aggregate="SUM" type="number" hidden="false" searchable="false">
   </measure>
 </cube>
 }
