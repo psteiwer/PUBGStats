@@ -49,7 +49,7 @@ ClassMethod ProcessTelemetryjson(Byref pJSON) As %Status
 			}
 			set kill.DamageCauserName=val.damageCauserName
 			set kill.DamageTypeCategory=val.damageTypeCategory
-			set kill.TimeStamp = $system.SQL.DATEADD("hour",-3,$zdth($translate(val."_D","TZ"," "),3))
+			set kill.TimeStamp = ##class(PUBGStats.Utils).ConvertTimeStamp(val."_D")
 			set kill.Telemetry=telemetry
 			set st=kill.%Save()
 			do telemetry.Events.Insert(kill)
