@@ -11,11 +11,11 @@ ClassMethod SynchronizeAll() As %Status
 	quit st
 }
 
-ClassMethod LoadUs() As %Status
+ClassMethod LoadUs(pIdOnly As %Boolean = 0) As %Status
 {
 	set st=$$$OK
 	
-	set st=##class(PUBGStats.Player).GetMatchesForPlayer("hungryunicorn,drawkcab2138")
+	set st=##class(PUBGStats.Player).GetMatchesForPlayer("hungryunicorn,drawkcab2138",pIdOnly)
 	//quit:'st st
 	set st=##class(PUBGStats.Utils).SynchronizeAll()
 	//quit:'st st
@@ -23,11 +23,11 @@ ClassMethod LoadUs() As %Status
 	quit st
 }
 
-ClassMethod LoadStreamers() As %Status
+ClassMethod LoadStreamers(pIdOnly As %Boolean = 0) As %Status
 {
 	set st=$$$OK
 	
-	set st=##class(PUBGStats.Player).GetMatchesForPlayer("VissGames,DrDisRespect")
+	set st=##class(PUBGStats.Player).GetMatchesForPlayer("VissGames,DrDisRespect",pIdOnly)
 	//quit:'st st
 	set st=##class(PUBGStats.Utils).SynchronizeAll()
 	//quit:'st st
