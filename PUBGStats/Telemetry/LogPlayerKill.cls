@@ -1,5 +1,6 @@
 Class PUBGStats.Telemetry.LogPlayerKill Extends (%Persistent,PUBGStats.Telemetry.Event)
 {
+Parameter DSTIME = "AUTO";
 Property Killer As PUBGStats.Telemetry.Player;
 Property Victim As PUBGStats.Telemetry.Player;
 Property DamageTypeCategory As %String;
