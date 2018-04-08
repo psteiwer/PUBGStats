@@ -36,7 +36,7 @@ ClassMethod AddPlayer(pPlayerID As %Integer, ByRef pPlayer As PUBGStats.Player) 
 	quit st
 }
 
-ClassMethod GetMatchesForPlayer(pPlayerNames As %String) As %Status
+ClassMethod GetMatchesForPlayer(pPlayerNames As %String, pIdOnly As %Boolean = 0) As %Status
 {
 	set st=$$$OK
 	set st=##class(PUBGStats.Utils).Requestjson("/shards/pc-na/players?filter[playerNames]="_pPlayerNames,.json)
@@ -45,9 +45,11 @@ ClassMethod GetMatchesForPlayer(pPlayerNames As %String) As %Status
 		for j=1:1:json.data.GetAt(i).relationships.matches.data.Size {
 			set matchId = json.data.GetAt(i).relationships.matches.data.GetAt(j).id
 			set st = ##class(PUBGStats.Game).CreateMatch(matchId)
-			set st=##class(PUBGStats.Game).LoadMatchData(matchId)
-			set st=##class(PUBGStats.Utils).GetTelemetryjson(##class(PUBGStats.Game).TelemetryURLGetStored(matchId),.telemetryjson)
-			set st=##class(PUBGStats.Telemetry).ProcessTelemetryjson(.telemetryjson)
+			if 'pIdOnly {
+				set st=##class(PUBGStats.Game).LoadMatchData(matchId)
+				set st=##class(PUBGStats.Utils).GetTelemetryjson(##class(PUBGStats.Game).TelemetryURLGetStored(matchId),.telemetryjson)
+				set st=##class(PUBGStats.Telemetry).ProcessTelemetryjson(.telemetryjson)
+			}
 		}
 	}
 	
