@@ -40,6 +40,7 @@ ClassMethod GetMatchesForPlayer(pPlayerNames As %String, pIdOnly As %Boolean = 0
 {
 	set st=$$$OK
 	set st=##class(PUBGStats.Utils).Requestjson("/shards/pc-na/players?filter[playerNames]="_pPlayerNames,.json)
+	quit:$$$ISERR(st) st
 	
 	for i=1:1:json.data.Size {
 		for j=1:1:json.data.GetAt(i).relationships.matches.data.Size {
