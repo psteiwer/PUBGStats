@@ -67,6 +67,7 @@ ClassMethod Requestjson(pGet, ByRef json) As %ZEN.Auxiliary.jsonProvider
 		set requestlog=##class(PUBGStats.RequestLog).%New()
 		d requestlog.%Save()
 		set st= request.Get(pGet)
+		quit:$$$ISERR(st)
 		set response=request.HttpResponse.Data.Read(request.HttpResponse.Data.SizeGet())
 		if request.HttpResponse.StatusCode'=200 
 		{
