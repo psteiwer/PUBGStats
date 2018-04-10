@@ -58,12 +58,21 @@ ClassMethod ProcessTelemetryjson(Byref pJSON) As %Status
 			if val.damage'=0 {
 				// This means the player was not already down when they took damage
 				set downed=(val.damage=val.victim.health)
-				w:((val.attacker.name="hungryunicorn")||(val.victim.name="hungryunicorn")||(val.attacker.name="drawkcab2138")||(val.victim.name="drawkcab2138")) key_": "_val.attacker.name_" delt "_val.damage_" damage "_$s(downed:"(downed)",1:"")_" to "_val.victim.name_" with "_val.damageCauserName,!
+				//w:((val.attacker.name="hungryunicorn")||(val.victim.name="hungryunicorn")||(val.attacker.name="drawkcab2138")||(val.victim.name="drawkcab2138")) key_": "_val.attacker.name_" delt "_val.damage_" damage "_$s(downed:"(downed)",1:"")_" to "_val.victim.name_" with "_val.damageCauserName,!
 			}
 		} elseif val."_T" = "LogGameStatePeriodic" {
 			// This may provide interesting information such as avg distance from circle center
 		} elseif val."_T" = "LogPlayerPosition" {
 			// May be useful to track movement of a player
+		} elseif val."_T" = "LogItemPickup" {
+			//set temp = $I(items(val.character.name,val.item.itemId),val.item.stackCount)
+		} elseif val."_T" = "LogItemDrop" {
+			//w:val.character.name="Goterdone" key_": Goterdone dropped "_val.item.stackCount_" "_val.item.itemId,!
+			//set temp = $I(items(val.character.name,val.item.itemId),-val.item.stackCount)
+		} elseif val."_T" = "LogItemUse" {
+			//w key_": "_val.character.name_" used "_val.item.itemId_". "_val.item.stackCount_" remaining",!
+		} elseif val."_T" = "LogItemEquip" {
+			//w key,!
 		}
 		
 		if '$IsObject($G(match)) {
