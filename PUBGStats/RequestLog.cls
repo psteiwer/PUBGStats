@@ -20,7 +20,7 @@ Storage Default
 <IdLocation>^PUBGStats.RequestLogD</IdLocation>
 <IndexLocation>^PUBGStats.RequestLogI</IndexLocation>
 <StreamLocation>^PUBGStats.RequestLogS</StreamLocation>
-<Type>%Library.CacheStorage</Type>
+<Type>%Storage.Persistent</Type>
 }
 
 }

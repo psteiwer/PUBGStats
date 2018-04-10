@@ -17,12 +17,11 @@ Property GameMode As %String;
 
 Property GameTimeStamp As %TimeStamp;
 
-Property TelemetryURL As %String (MAXLEN = 250);
+Property TelemetryURL As %String(MAXLEN = 250);
 
 ClassMethod CreateMatch(pMatchId) As %Status
 {
 	set st=$$$OK
-	
 	if '##class(PUBGStats.Game).%ExistsId(pMatchId) {
 		// Since this match data does not already exist, add match entry
 		set match = ##class(PUBGStats.Game).%New()
@@ -32,7 +31,6 @@ ClassMethod CreateMatch(pMatchId) As %Status
 			w "Match data added: ",pMatchId,!
 		}
 	}
-	
 	quit st
 }
 
@@ -45,10 +43,8 @@ ClassMethod LoadMatchData(pMatchID As %Integer) As %Status
 		w "Match does not exist",!
 		quit $$$OK
 	}
-	
 	set st=##class(PUBGStats.Utils).Requestjson("/shards/pc-na/matches/"_pMatchID,.json)
 	quit:$$$ISERR(st) st
-	
 	set match = ##class(PUBGStats.Game).%OpenId(pMatchID)
 	set match.Duration = json.data.attributes.duration
 	set match.GameMode = json.data.attributes.gameMode
