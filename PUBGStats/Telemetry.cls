@@ -6,6 +6,8 @@ Property Game As PUBGStats.Game;
 
 Property Events As List Of PUBGStats.Telemetry.Event;
 
+Index GameIdx On Game [Unique];
+
 ClassMethod ProcessTelemetryjson(Byref pJSON) As %Status
 {
 	set st=$$$OK
@@ -88,6 +90,22 @@ ClassMethod ProcessTelemetryjson(Byref pJSON) As %Status
 	quit st
 }
 
+ClassMethod LoadTelemetryData(pMatchId As %String) As %Status
+{
+	set st=$$$OK
+	
+	set sql="SELECT count(*) As C from PUBGStats.Telemetry WHERE Game = ?"
+	set rs=##class(%SQL.Statement).%ExecDirect(,sql,pMatchId)
+	d rs.%Next()
+	if 'rs.C {
+		set st=##class(PUBGStats.Utils).GetTelemetryjson(##class(PUBGStats.Game).TelemetryURLGetStored(pMatchId),.telemetryjson)
+		set st=##class(PUBGStats.Telemetry).ProcessTelemetryjson(.telemetryjson)
+	} else {
+		w "Telemetry already processed",!
+	}
+	
+	quit st
+}
 
 ClassMethod DeleteTelemetryForMatch(pMatchId As %String) As %Status
 {

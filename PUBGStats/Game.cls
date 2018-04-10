@@ -43,6 +43,7 @@ ClassMethod LoadMatchData(pMatchID As %Integer) As %Status
 		w "Match does not exist",!
 		quit $$$OK
 	}
+	
 	set st=##class(PUBGStats.Utils).Requestjson("/shards/pc-na/matches/"_pMatchID,.json)
 	quit:$$$ISERR(st) st
 	set match = ##class(PUBGStats.Game).%OpenId(pMatchID)

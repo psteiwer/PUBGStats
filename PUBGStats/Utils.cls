@@ -129,9 +129,9 @@ ClassMethod LoadMatchAndTelemetryData(pMatchId As %String) As %Status
 {
 	set st=$$$OK
 	
+	w "Match and Telemetry for "_pMatchId,!
 	set st=##class(PUBGStats.Game).LoadMatchData(pMatchId)
-	set st=##class(PUBGStats.Utils).GetTelemetryjson(##class(PUBGStats.Game).TelemetryURLGetStored(pMatchId),.telemetryjson)
-	set st=##class(PUBGStats.Telemetry).ProcessTelemetryjson(.telemetryjson)
+	set st=##class(PUBGStats.Telemetry).LoadTelemetryData(pMatchId)
 
 	quit st
 }
