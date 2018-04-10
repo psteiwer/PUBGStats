@@ -118,7 +118,7 @@ ClassMethod LoadUnprocessedMatches() As %Status
 	
 	while rs.%Next() {
 		w "Loading match data: "_rs.ID,!
-		set st=##class(PUBGStats.Game).LoadMatchData(rs.ID)
+		set st=##class(PUBGStats.Utils).LoadMatchAndTelemetryData(rs.ID)
 		if st {
 			w "Match processed: "_rs.ID,!
 			set match = ##class(PUBGStats.Game).%OpenId(rs.ID)

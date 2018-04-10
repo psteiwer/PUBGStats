@@ -47,9 +47,7 @@ ClassMethod GetMatchesForPlayer(pPlayerNames As %String, pIdOnly As %Boolean = 0
 			set matchId = json.data.GetAt(i).relationships.matches.data.GetAt(j).id
 			set st = ##class(PUBGStats.Game).CreateMatch(matchId)
 			if 'pIdOnly {
-				set st=##class(PUBGStats.Game).LoadMatchData(matchId)
-				set st=##class(PUBGStats.Utils).GetTelemetryjson(##class(PUBGStats.Game).TelemetryURLGetStored(matchId),.telemetryjson)
-				set st=##class(PUBGStats.Telemetry).ProcessTelemetryjson(.telemetryjson)
+				set st=##class(PUBGStats.Utils).LoadMatchAndTelemetryData(matchId)
 			}
 		}
 	}

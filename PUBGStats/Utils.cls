@@ -125,6 +125,17 @@ ClassMethod GetTelemetryjson(pURL As %String, Byref json) As %Status
 	quit st
 }
 
+ClassMethod LoadMatchAndTelemetryData(pMatchId As %String) As %Status
+{
+	set st=$$$OK
+	
+	set st=##class(PUBGStats.Game).LoadMatchData(pMatchId)
+	set st=##class(PUBGStats.Utils).GetTelemetryjson(##class(PUBGStats.Game).TelemetryURLGetStored(pMatchId),.telemetryjson)
+	set st=##class(PUBGStats.Telemetry).ProcessTelemetryjson(.telemetryjson)
+
+	quit st
+}
+
 ClassMethod ConvertTimeStamp(pTimeStamp As %String) As %TimeStamp
 {
 	quit $system.SQL.DATEADD("hour",-3,$zdth($translate(pTimeStamp,"TZ"," "),3))
