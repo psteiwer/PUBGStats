@@ -19,9 +19,11 @@ ClassMethod ProcessTelemetryjson(Byref pJSON) As %Status
 		if val."_T" = "LogMatchDefinition" {
 			set matchid = $piece(val.MatchId,".",*)
 			set st=##class(PUBGStats.Game).CreateMatch(matchid)
+			quit:$$$ISERR(st)
 			set match = ##class(PUBGStats.Game).%OpenId(matchid)
 			set telemetry.Game = match
 			set st=##class(PUBGStats.Telemetry).DeleteTelemetryForMatch(matchid)
+			quit:$$$ISERR(st)
 		} elseif val."_T" = "LogPlayerPosition" {
 			// May be useful, not yet sure
 		} elseif val."_T" = "LogPlayerKill" {
@@ -55,6 +57,7 @@ ClassMethod ProcessTelemetryjson(Byref pJSON) As %Status
 			set kill.Distance = val.distance
 			set kill.Telemetry=telemetry
 			set st=kill.%Save()
+			quit:$$$ISERR(st)
 			do telemetry.Events.Insert(kill)
 		} elseif val."_T" = "LogPlayerTakeDamage" {
 			if val.damage'=0 {
@@ -99,7 +102,9 @@ ClassMethod LoadTelemetryData(pMatchId As %String) As %Status
 	d rs.%Next()
 	if 'rs.C {
 		set st=##class(PUBGStats.Utils).GetTelemetryjson(##class(PUBGStats.Game).TelemetryURLGetStored(pMatchId),.telemetryjson)
+		quit:$$$ISERR(st)
 		set st=##class(PUBGStats.Telemetry).ProcessTelemetryjson(.telemetryjson)
+		quit:$$$ISERR(st)
 	} else {
 		w "Telemetry already processed",!
 	}
@@ -110,7 +115,6 @@ ClassMethod LoadTelemetryData(pMatchId As %String) As %Status
 ClassMethod DeleteTelemetryForMatch(pMatchId As %String) As %Status
 {
 	set st=$$$OK
-	
 	
 	d ##class(%SQL.Statement).%ExecDirect(,"DELETE FROM PUBGStats_Telemetry.LogPlayerKill WHERE Telemetry->Game->%ID=?",pMatchId)
 	d ##class(%SQL.Statement).%ExecDirect(,"DELETE FROM PUBGStats.Telemetry WHERE Game->%ID=?",pMatchId)

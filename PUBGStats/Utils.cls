@@ -98,7 +98,7 @@ ClassMethod Requestjson(pGet, ByRef json) As %ZEN.Auxiliary.jsonProvider
 		} else {
 			hang 1
 		}
-		d ..Requestjson(pGet,.json)
+		set st=..Requestjson(pGet,.json)
 	}
 	quit st
 }
@@ -131,7 +131,9 @@ ClassMethod LoadMatchAndTelemetryData(pMatchId As %String) As %Status
 	
 	w "Match and Telemetry for "_pMatchId,!
 	set st=##class(PUBGStats.Game).LoadMatchData(pMatchId)
+	quit:$$$ISERR(st) st
 	set st=##class(PUBGStats.Telemetry).LoadTelemetryData(pMatchId)
+	quit:$$$ISERR(st) st
 
 	quit st
 }

@@ -52,6 +52,7 @@ ClassMethod LoadMatchData(pMatchID As %Integer) As %Status
 	set match.GameTimeStamp = ##class(PUBGStats.Utils).ConvertTimeStamp(json.data.attributes.createdAt)
 	
 	set st=match.%Save()
+	quit:$$$ISERR(st) st
 	// Add participant data
 	for i=1:1:json.included.Size {
 		//Find type
@@ -63,7 +64,8 @@ ClassMethod LoadMatchData(pMatchID As %Integer) As %Status
 				set player = ##class(PUBGStats.Player).%New()
 				set player.PlayerID = playerId
 				set player.Name = json.included.GetAt(i).attributes.stats.name
-				d player.%Save()
+				set st = player.%Save()
+				quit:$$$ISERR(st)
 			}
 			d gamestat.PlayerSetObjectId(playerId)
 			d gamestat.GameSetObjectId(pMatchID)
@@ -120,7 +122,8 @@ ClassMethod LoadUnprocessedMatches() As %Status
 			w "Match processed: "_rs.ID,!
 			set match = ##class(PUBGStats.Game).%OpenId(rs.ID)
 			set match.Processed = 1
-			d match.%Save()
+			set st=match.%Save()
+			quit:$$$ISERR(st)
 		}
 	}
 	
