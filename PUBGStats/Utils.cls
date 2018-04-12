@@ -137,6 +137,10 @@ ClassMethod LoadMatchAndTelemetryData(pMatchId As %String) As %Status
 	quit:$$$ISERR(st) st
 	set st=##class(PUBGStats.Telemetry).LoadTelemetryData(pMatchId)
 	quit:$$$ISERR(st) st
+	// Once match and telemetry have been processed, mark match as Processed
+	set match=##class(PUBGStats.Game).%OpenId(pMatchId)
+	set match.Processed=1
+	set st=match.%Save()
 
 	quit st
 }
