@@ -119,12 +119,12 @@ ClassMethod DeleteTelemetryForMatch(pMatchId As %String) As %Status
 	set rs=##class(%SQL.Statement).%ExecDirect(,"DELETE FROM PUBGStats_Telemetry.LogPlayerKill WHERE Telemetry->Game->%ID=?",pMatchId)
 	If (rs.%SQLCODE'=0) {
 		set st=$$$ERROR($$$GeneralError,"SQL Error ("_rs.%SQLCODE_") deleting from PUBGStats_Telemetry.LogPlayerKill. Match ID:"_pMatchId)
-		quit
+		quit st
 	}
 	set rs=##class(%SQL.Statement).%ExecDirect(,"DELETE FROM PUBGStats.Telemetry WHERE Game->%ID=?",pMatchId)
 	If (rs.%SQLCODE'=0) {
 		set st=$$$ERROR($$$GeneralError,"SQL Error ("_rs.%SQLCODE_") deleting from PUBGStats.Telemetry. Match ID:"_pMatchId)
-		quit
+		quit st
 	}
 	  	
 	quit st
