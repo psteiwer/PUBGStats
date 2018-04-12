@@ -102,9 +102,9 @@ ClassMethod LoadTelemetryData(pMatchId As %String) As %Status
 	d rs.%Next()
 	if 'rs.C {
 		set st=##class(PUBGStats.Utils).GetTelemetryjson(##class(PUBGStats.Game).TelemetryURLGetStored(pMatchId),.telemetryjson)
-		quit:$$$ISERR(st)
+		quit:$$$ISERR(st) st
 		set st=##class(PUBGStats.Telemetry).ProcessTelemetryjson(.telemetryjson)
-		quit:$$$ISERR(st)
+		quit:$$$ISERR(st) st
 	} else {
 		w "Telemetry already processed",!
 	}

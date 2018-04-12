@@ -61,8 +61,10 @@ ClassMethod GetAPIKey(ByRef pKey As %String, ByRef pLimit As %Integer) As %Statu
 }
 
 /// Input form of /shards/<region>/<endpoint>
-ClassMethod Requestjson(pGet, ByRef json) As %ZEN.Auxiliary.jsonProvider
+ClassMethod Requestjson(pGet, ByRef json) As %Status
 {
+	set st=$$$OK
+	
 	try {
 		set request=##class(%Net.HttpRequest).%New()
 		set request.Server="api.playbattlegrounds.com"
@@ -100,6 +102,7 @@ ClassMethod Requestjson(pGet, ByRef json) As %ZEN.Auxiliary.jsonProvider
 		}
 		set st=..Requestjson(pGet,.json)
 	}
+	
 	quit st
 }
 
