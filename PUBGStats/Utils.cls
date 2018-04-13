@@ -79,7 +79,7 @@ ClassMethod Requestjson(pGet, ByRef json) As %Status
 			}
 			set rs=##class(%SQL.Statement).%ExecDirect(,"SELECT COUNT(*) As Num FROM PUBGStats.RequestLog WHERE TimeRequested > DATEADD(s,-61,CURRENT_TIMESTAMP)")
 			d rs.%Next()
-			w rs.Num,!
+			w "Current API Key Usage: "_rs.Num,!
 		} while rs.Num >= ^APIKey("PUBG","Limit")
 		set requestlog=##class(PUBGStats.RequestLog).%New()
 		d requestlog.%Save()
