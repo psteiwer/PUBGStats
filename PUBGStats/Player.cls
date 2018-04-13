@@ -37,6 +37,10 @@ ClassMethod GetMatchesForPlayer(pPlayerNames As %String, pIdOnly As %Boolean = 0
 			set st = ##class(PUBGStats.Game).CreateMatch(matchId)
 			if 'pIdOnly {
 				set st=##class(PUBGStats.Utils).LoadMatchAndTelemetryData(matchId)
+				if $$$ISERR(st) {
+					w "Match "_matchId_" encountered an error:",!
+					w $system.Status.GetErrorText(st),!
+				}
 			}
 		}
 	}
