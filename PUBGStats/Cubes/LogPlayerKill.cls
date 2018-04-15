@@ -32,6 +32,8 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
   </dimension>
   <measure name="Distance" disabled="false" sourceExpression="%source.Distance/100" aggregate="SUM" type="number" hidden="false" searchable="false">
   </measure>
+  <listing name="Details" disabled="false" listingType="table" fieldList="Killer_Player-&gt;Name,Victim_Player-&gt;Name,DamageCauserName,DamageTypeCategory,Distance,Telemetry-&gt;Game-&gt;GameTimeStamp,Telemetry-&gt;Game-&gt;GameMode">
+  </listing>
 </cube>
 }
 
