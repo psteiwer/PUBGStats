@@ -30,6 +30,12 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
       </level>
     </hierarchy>
   </dimension>
+  <dimension name="GameMode" disabled="false" hasAll="false" allCaption="All GameMode" allDisplayName="GameMode" type="data" hidden="false" showHierarchies="default">
+    <hierarchy name="H1" disabled="false" hidden="false">
+      <level name="GameMode" disabled="false" sourceProperty="Telemetry.Game.GameMode" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      </level>
+    </hierarchy>
+  </dimension>
   <measure name="Distance" disabled="false" sourceExpression="%source.Distance/100" aggregate="SUM" type="number" hidden="false" searchable="false">
   </measure>
   <listing name="Details" disabled="false" listingType="table" fieldList="Killer_Player-&gt;Name,Victim_Player-&gt;Name,DamageCauserName,DamageTypeCategory,Distance,Telemetry-&gt;Game-&gt;GameTimeStamp,Telemetry-&gt;Game-&gt;GameMode">
