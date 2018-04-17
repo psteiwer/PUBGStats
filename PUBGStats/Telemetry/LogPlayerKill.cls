@@ -40,7 +40,7 @@ Storage Default
 <IdLocation>^PUBGStats.Te1E19.LogPlayerKillD</IdLocation>
 <IndexLocation>^PUBGStats.Te1E19.LogPlayerKillI</IndexLocation>
 <StreamLocation>^PUBGStats.Te1E19.LogPlayerKillS</StreamLocation>
-<Type>%Storage.Persistent</Type>
+<Type>%Library.CacheStorage</Type>
 }
 
 }

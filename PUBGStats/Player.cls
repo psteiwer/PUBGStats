@@ -61,7 +61,7 @@ Storage Default
 <IdLocation>^PUBGStats.PlayerD</IdLocation>
 <IndexLocation>^PUBGStats.PlayerI</IndexLocation>
 <StreamLocation>^PUBGStats.PlayerS</StreamLocation>
-<Type>%Storage.Persistent</Type>
+<Type>%Library.CacheStorage</Type>
 }
 
 }

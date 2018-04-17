@@ -20,7 +20,7 @@ Storage Default
 </Data>
 <State>LocationState</State>
 <StreamLocation>^PUBGStats.Telemetry.LocationS</StreamLocation>
-<Type>%Storage.Serial</Type>
+<Type>%Library.CacheSerialState</Type>
 }
 
 }

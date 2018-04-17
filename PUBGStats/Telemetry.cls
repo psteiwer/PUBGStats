@@ -154,7 +154,7 @@ Storage Default
 <IdLocation>^PUBGStats.TelemetryD</IdLocation>
 <IndexLocation>^PUBGStats.TelemetryI</IndexLocation>
 <StreamLocation>^PUBGStats.TelemetryS</StreamLocation>
-<Type>%Storage.Persistent</Type>
+<Type>%Library.CacheStorage</Type>
 }
 
 }
