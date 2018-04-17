@@ -15,7 +15,7 @@ ClassMethod LoadUs(pIdOnly As %Boolean = 0) As %Status
 {
 	set st=$$$OK
 	try {
-		set st=##class(PUBGStats.Player).GetMatchesForPlayer("hungryunicorn,drawkcab2138",pIdOnly)
+		set st=##class(PUBGStats.Player).GetMatchesForPlayer("hungryunicorn,drawkcab2138,lilj322,mannyquin",pIdOnly)
 		quit:$$$ISERR(st)
 		set st=##class(PUBGStats.Utils).SynchronizeAll()
 		quit:$$$ISERR(st)
