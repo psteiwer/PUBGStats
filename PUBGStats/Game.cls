@@ -22,6 +22,11 @@ Property TelemetryURL As %String(MAXLEN = 250);
 ClassMethod CreateMatch(pMatchId) As %Status
 {
 	set st=$$$OK
+	
+	if pMatchId="" {
+		quit $$$ERROR($$$GeneralError,"Please enter a match ID")
+	}
+	
 	if '##class(PUBGStats.Game).%ExistsId(pMatchId) {
 		// Since this match data does not already exist, add match entry
 		set match = ##class(PUBGStats.Game).%New()

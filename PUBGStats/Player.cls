@@ -35,6 +35,10 @@ ClassMethod GetMatchesForPlayer(pPlayerNames As %String, pIdOnly As %Boolean = 0
 		for j=1:1:json.data.GetAt(i).relationships.matches.data.Size {
 			set matchId = json.data.GetAt(i).relationships.matches.data.GetAt(j).id
 			set st = ##class(PUBGStats.Game).CreateMatch(matchId)
+			if $$$ISERR(st) {
+				w $system.Status.GetErrorText(st),!
+				continue
+			}
 			if 'pIdOnly {
 				set st=##class(PUBGStats.Utils).LoadMatchAndTelemetryData(matchId)
 				if $$$ISERR(st) {
