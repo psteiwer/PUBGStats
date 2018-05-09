@@ -20,19 +20,33 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
   </dimension>
   <dimension name="DamageCauserName" disabled="false" hasAll="false" allCaption="All DamageCauserName" allDisplayName="DamageCauserName" type="data" hidden="false" showHierarchies="default">
     <hierarchy name="H1" disabled="false" hidden="false">
-      <level name="DamageCauserName" disabled="false" sourceProperty="DamageCauserName" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      <level name="DamageCauserName" disabled="false" sourceExpression="##class(PUBGStats.Utils).ConvertDamage(%source.DamageCauserName)" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      </level>
+      <level name="DamageCauserInternal" disabled="false" sourceProperty="DamageCauserName" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
       </level>
     </hierarchy>
   </dimension>
-  <dimension name="DamageTypeCategory" disabled="false" hasAll="false" allCaption="All DamageTypeCategory" allDisplayName="DamageTypeCategory" type="data" hidden="false" showHierarchies="default">
+  <dimension name="DamageTypeCategory" disabled="false" hasAll="false" allCaption="All DamageTypeCategory" allDisplayName="DamageTypeCategory" type="data" calendar="gregorian" iKnowType="entity" hidden="false" showHierarchies="default">
     <hierarchy name="H1" disabled="false" hidden="false">
-      <level name="DamageTypeCategory" disabled="false" sourceProperty="DamageTypeCategory" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      <level name="DamageTypeCategory" disabled="false" sourceExpression="##class(PUBGStats.Utils).ConvertDamage(%source.DamageTypeCategory)" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      </level>
+      <level name="DamageTypeInternal" disabled="false" sourceProperty="DamageTypeCategory" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
       </level>
     </hierarchy>
   </dimension>
   <dimension name="GameMode" disabled="false" hasAll="false" allCaption="All GameMode" allDisplayName="GameMode" type="data" hidden="false" showHierarchies="default">
     <hierarchy name="H1" disabled="false" hidden="false">
       <level name="GameMode" disabled="false" sourceProperty="Telemetry.Game.GameMode" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      </level>
+    </hierarchy>
+  </dimension>
+  <dimension name="GameDate" disabled="false" hasAll="false" allCaption="All GameTimeStamp" allDisplayName="GameTimeStamp" sourceProperty="Telemetry.Game.GameTimeStamp" type="time" calendar="gregorian" iKnowType="entity" hidden="false" showHierarchies="default">
+    <hierarchy name="H1" disabled="false" hidden="false">
+      <level name="Year" disabled="false" timeFunction="Year" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      </level>
+      <level name="Month" disabled="false" timeFunction="MonthYear" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      </level>
+      <level name="Day" disabled="false" timeFunction="DayMonthYear" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
       </level>
     </hierarchy>
   </dimension>
