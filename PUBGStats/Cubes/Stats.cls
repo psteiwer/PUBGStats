@@ -16,7 +16,7 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
     <hierarchy name="H1" disabled="false" hidden="false">
       <level name="Rank Group" disabled="false" sourceProperty="WinPlace" list="false" rangeExpression="[1,1]:1;[2,10]:2-10;[11,100]:11-100;" useDisplayValue="true" useAsFilter="true" hidden="false">
       </level>
-      <level name="Rank" disabled="false" sourceProperty="WinPlace" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      <level name="Rank" disabled="false" sourceProperty="WinPlace" list="false" useDisplayValue="true" sort="asc numeric" useAsFilter="true" hidden="false">
       </level>
     </hierarchy>
   </dimension>
