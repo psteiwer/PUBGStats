@@ -11,6 +11,21 @@ ClassMethod SynchronizeAll() As %Status
 	quit st
 }
 
+ClassMethod LoadAll(pIdOnly As %Boolean = 0) As %Status
+{
+	set st=$$$OK
+	try {
+		set st=##class(PUBGStats.Utils).LoadUs(pIdOnly)
+		quit:$$$ISERR(st)
+		set st=##class(PUBGStats.Utils).LoadStreamers(pIdOnly)
+		quit:$$$ISERR(st)
+	} catch ex {
+		set st=ex.AsStatus()
+	}
+	
+	quit st
+}
+
 ClassMethod LoadUs(pIdOnly As %Boolean = 0) As %Status
 {
 	set st=$$$OK
