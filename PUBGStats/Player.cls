@@ -49,7 +49,26 @@ ClassMethod GetMatchesForPlayer(pPlayerNames As %String, pIdOnly As %Boolean = 0
 		}
 	}
 	quit st
-}
+}
+
+
+ClassMethod UpdateName(pPlayerId, pPlayerName) As %Status
+{
+	// Update player name in Player
+	set player = ##class(PUBGStats.Player).%OpenId(pPlayerId)
+	set player.Name = pPlayerName
+	set st = player.%Save()
+	quit:$$$ISERR(st) st
+	
+	// Mark GameStats for this player as changed
+	set RS = ##class(%SQL.Statement).%ExecDirect(,"SELECT %ID FROM PUBGStats.GameStats WHERE Player = ?",pPlayerId)
+	while RS.%Next() {
+		do ##class(%DeepSee.Utils).%SetDSTimeIndex("PUBGStats.GameStats",RS.%Get("ID"),1)
+	}
+	
+	quit st
+}
+
 Storage Default
 {
 <Data name="PlayerDefaultData">

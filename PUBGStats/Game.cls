@@ -65,12 +65,19 @@ ClassMethod LoadMatchData(pMatchID As %Integer) As %Status
 		if type="participant" {
 			set gamestat = ##class(PUBGStats.GameStats).%New()
 			set playerId=json.included.GetAt(i).attributes.stats.playerId
+			set playerName=json.included.GetAt(i).attributes.stats.name
 			if '##class(PUBGStats.Player).%ExistsId(playerId) {
 				set player = ##class(PUBGStats.Player).%New()
 				set player.PlayerID = playerId
-				set player.Name = json.included.GetAt(i).attributes.stats.name
+				set player.Name = playerName
 				set st = player.%Save()
 				quit:$$$ISERR(st)
+			} else {
+				// Check if player name has been changed
+				if ##class(PUBGStats.Player).NameGetStored(playerId)'=playerName {
+					set st = ##class(PUBGStats.Player).UpdateName(playerId,playerName)
+					quit:$$$ISERR(st)
+				}
 			}
 			d gamestat.PlayerSetObjectId(playerId)
 			d gamestat.GameSetObjectId(pMatchID)
