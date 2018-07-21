@@ -45,7 +45,7 @@ ClassMethod LoadStreamers(pIdOnly As %Boolean = 0) As %Status
 {
 	set st=$$$OK
 	try {
-		set st=##class(PUBGStats.Player).GetMatchesForPlayer("VissGames,DrDisRespect",pIdOnly)
+		set st=##class(PUBGStats.Player).GetMatchesForPlayer("TSMViss,DrDisRespect",pIdOnly)
 		quit:$$$ISERR(st)
 		set st=##class(PUBGStats.Utils).SynchronizeAll()
 		quit:$$$ISERR(st)
