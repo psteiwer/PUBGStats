@@ -1,6 +1,17 @@
 Class PUBGStats.Utils [ Abstract ]
 {
 
+ClassMethod BuildAll() As %Status
+{
+	set st=$$$OK
+	
+	set st=##class(%DeepSee.Utils).%BuildCube("PUBGGame")
+	set st=##class(%DeepSee.Utils).%BuildCube("PUBGStats")
+	set st=##class(%DeepSee.Utils).%BuildCube("LogPlayerKill")
+	
+	quit st
+}
+
 ClassMethod SynchronizeAll() As %Status
 {
 	set st=$$$OK
