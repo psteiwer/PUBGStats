@@ -5,6 +5,7 @@ ClassMethod SynchronizeAll() As %Status
 {
 	set st=$$$OK
 	
+	set st=##class(%DeepSee.Utils).%SynchronizeCube("PUBGGame")
 	set st=##class(%DeepSee.Utils).%SynchronizeCube("PUBGStats")
 	set st=##class(%DeepSee.Utils).%SynchronizeCube("LogPlayerKill")
 	
