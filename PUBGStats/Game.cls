@@ -145,6 +145,26 @@ ClassMethod LoadUnprocessedMatches() As %Status
 	quit st
 }
 
+ClassMethod ExportGameIDs() As %Status
+{
+	set st=$$$OK
+	
+	set SQL = "SELECT ID FROM PUBGStats.Game"
+	set rs = ##class(%SQL.Statement).%ExecDirect(,SQL)
+	
+	set stream = ##class(%Stream.FileBinary).%New()
+	w stream.LinkToFile("GameIds.txt"),!
+	
+	while rs.%Next() {
+		w rs.ID,!
+		d stream.WriteLine(rs.ID)
+	}
+	
+	w stream.%Save(),!
+	
+	quit st
+}
+
 Storage Default
 {
 <Data name="GameDefaultData">
