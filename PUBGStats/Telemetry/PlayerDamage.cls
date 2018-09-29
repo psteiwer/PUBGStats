@@ -1,9 +1,9 @@
 Class PUBGStats.Telemetry.PlayerDamage Extends %Persistent
 {
 
-Property Attacker As %String; //PUBGStats.Telemetry.Player;
+Property Attacker As PUBGStats.Telemetry.Player;
 
-Property Victim As %String; // PUBGStats.Telemetry.Player;
+Property Victim As PUBGStats.Telemetry.Player;
 
 Property DamageTypeCategory As %String;
 
