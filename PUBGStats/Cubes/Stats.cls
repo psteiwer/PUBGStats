@@ -48,6 +48,8 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
   </measure>
   <measure name="DBNOs" disabled="false" sourceProperty="DBNOs" aggregate="SUM" type="number" hidden="false" searchable="false">
   </measure>
+  <measure name="DamageTaken" disabled="false" sourceExpression="##class(PUBGStats.Telemetry.PlayerDamage).GetDamageTaken(%source.Player,%source.Game)" aggregate="SUM" type="number" hidden="false" searchable="false">
+  </measure>
   <relationship name="Game" disabled="false" sourceProperty="Game" relatedCube="PUBGGame" inverse="GameStats" cardinality="one">
   </relationship>
   <listing name="Game Stats Details" disabled="false" listingType="table" fieldList="Player-&gt;Name,WinPlace As &quot;Rank&quot;,Game-&gt;GameTimeStamp,Game-&gt;GameMode,Kills,Assists,DBNOs,DamageDealt,TimeSurvived,DeathType,Game">
