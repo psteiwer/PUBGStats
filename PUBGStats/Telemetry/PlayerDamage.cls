@@ -5,6 +5,8 @@ Property Attacker As PUBGStats.Telemetry.Player;
 
 Property Victim As PUBGStats.Telemetry.Player;
 
+Property Game As PUBGStats.Game;
+
 Property DamageTypeCategory As %String;
 
 Property DamageCauserName As %String;
@@ -48,13 +50,16 @@ Storage Default
 <Value name="9">
 <Value>Downed</Value>
 </Value>
+<Value name="10">
+<Value>Game</Value>
+</Value>
 </Data>
 <DataLocation>^PUBGStats.Tel1E19.PlayerDamageD</DataLocation>
 <DefaultData>PlayerDamageDefaultData</DefaultData>
 <IdLocation>^PUBGStats.Tel1E19.PlayerDamageD</IdLocation>
 <IndexLocation>^PUBGStats.Tel1E19.PlayerDamageI</IndexLocation>
 <StreamLocation>^PUBGStats.Tel1E19.PlayerDamageS</StreamLocation>
-<Type>%Storage.Persistent</Type>
+<Type>%Library.CacheStorage</Type>
 }
 
 }
