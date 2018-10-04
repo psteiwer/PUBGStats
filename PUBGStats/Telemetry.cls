@@ -60,11 +60,23 @@ ClassMethod ProcessTelemetryjson(Byref pJSON) As %Status
 			quit:$$$ISERR(st)
 			do telemetry.Events.Insert(kill)
 		} elseif val."_T" = "LogPlayerTakeDamage" {
+			set damage = ##class(PUBGStats.Telemetry.PlayerDamage).%New()
+			do damage.AttackerSetObjectId(val.attacker.accountId)
+			do damage.VictimSetObjectId(val.victim.accountId)
+			do damage.GameSetObjectId(matchid)
+			set damage.DamageTypeCategory = val.damageTypeCategory
+			set damage.DamageCauserName = val.damageCauserName
+			set damage.Distance = val.distance
+			set damage.Damage = val.damage
+			set damage.DamageReason = val.damageReason
+			set damage.Downed = 0
 			if val.damage'=0 {
 				// This means the player was not already down when they took damage
 				set downed=(val.damage=val.victim.health)
 				//w:((val.attacker.name="hungryunicorn")||(val.victim.name="hungryunicorn")||(val.attacker.name="drawkcab2138")||(val.victim.name="drawkcab2138")) key_": "_val.attacker.name_" delt "_val.damage_" damage "_$s(downed:"(downed)",1:"")_" to "_val.victim.name_" with "_val.damageCauserName,!
 			}
+			set st=damage.%Save()
+			quit:$$$ISERR(st)
 		} elseif val."_T" = "LogGameStatePeriodic" {
 			// This may provide interesting information such as avg distance from circle center
 		} elseif val."_T" = "LogPlayerPosition" {

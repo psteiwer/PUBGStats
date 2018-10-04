@@ -1,9 +1,9 @@
 Class PUBGStats.Telemetry.PlayerDamage Extends %Persistent
 {
 
-Property Attacker As PUBGStats.Telemetry.Player;
+Property Attacker As PUBGStats.Player;
 
-Property Victim As PUBGStats.Telemetry.Player;
+Property Victim As PUBGStats.Player;
 
 Property Game As PUBGStats.Game;
 
@@ -18,6 +18,21 @@ Property Damage As %Double;
 Property DamageReason As %String;
 
 Property Downed As %Boolean;
+
+Index GameVictimIdx On (Game,Victim);
+
+
+ClassMethod GetDamageTaken(pPlayerId, pGameId) As %Double
+{
+	set damage=0
+	set sql="SELECT Damage FROM PUBGStats_Telemetry.PlayerDamage WHERE Game->ID = ? and Victim->ID = ?"
+	set sqlrs=##class(%SQL.Statement).%ExecDirect(,sql,pGameId,pPlayerId)
+	while sqlrs.%Next() {
+		set damage=damage+sqlrs.Damage
+	}
+
+	quit damage
+}
 
 
 Storage Default
