@@ -165,6 +165,26 @@ ClassMethod ExportGameIDs() As %Status
 	quit st
 }
 
+
+ClassMethod ImportGameIDs() As %Status
+{
+	set st = $$$OK
+	
+	set stream = ##class(%Stream.FileBinary).%New()
+	w stream.LinkToFile("GameIds.txt"),!
+	
+	while 'stream.AtEnd {
+		set matchId = stream.ReadLine()
+		w matchId,!
+		set st = ##class(PUBGStats.Game).CreateMatch(matchId)
+		w st,!
+		set st = ##class(PUBGStats.Utils).LoadMatchAndTelemetryData(matchId)
+		w st,!
+	}
+	
+	quit st
+}
+
 Storage Default
 {
 <Data name="GameDefaultData">
