@@ -23,13 +23,13 @@ ClassMethod SynchronizeAll() As %Status
 	quit st
 }
 
-ClassMethod LoadAll(pIdOnly As %Boolean = 0) As %Status
+ClassMethod LoadAll(pIdOnly As %Boolean = 0, pRefresh As %Boolean = 0) As %Status
 {
 	set st=$$$OK
 	try {
-		set st=##class(PUBGStats.Utils).LoadUs(pIdOnly)
+		set st=##class(PUBGStats.Utils).LoadUs(pIdOnly,pRefresh)
 		quit:$$$ISERR(st)
-		set st=##class(PUBGStats.Utils).LoadStreamers(pIdOnly)
+		set st=##class(PUBGStats.Utils).LoadStreamers(pIdOnly,pRefresh)
 		quit:$$$ISERR(st)
 	} catch ex {
 		set st=ex.AsStatus()
@@ -38,11 +38,11 @@ ClassMethod LoadAll(pIdOnly As %Boolean = 0) As %Status
 	quit st
 }
 
-ClassMethod LoadUs(pIdOnly As %Boolean = 0) As %Status
+ClassMethod LoadUs(pIdOnly As %Boolean = 0, pRefresh As %Boolean = 0) As %Status
 {
 	set st=$$$OK
 	try {
-		set st=##class(PUBGStats.Player).GetMatchesForPlayer("hungryunicorn,drawkcab2138,lilj322,mannyquin",pIdOnly)
+		set st=##class(PUBGStats.Player).GetMatchesForPlayer("hungryunicorn,drawkcab2138,lilj322,mannyquin",pIdOnly,pRefresh)
 		quit:$$$ISERR(st)
 		set st=##class(PUBGStats.Utils).SynchronizeAll()
 		quit:$$$ISERR(st)
@@ -53,11 +53,11 @@ ClassMethod LoadUs(pIdOnly As %Boolean = 0) As %Status
 	quit st
 }
 
-ClassMethod LoadStreamers(pIdOnly As %Boolean = 0) As %Status
+ClassMethod LoadStreamers(pIdOnly As %Boolean = 0, pRefresh As %Boolean = 0) As %Status
 {
 	set st=$$$OK
 	try {
-		set st=##class(PUBGStats.Player).GetMatchesForPlayer("TSMViss,DrDisRespect",pIdOnly)
+		set st=##class(PUBGStats.Player).GetMatchesForPlayer("TSMViss,DrDisRespect",pIdOnly,pRefresh)
 		quit:$$$ISERR(st)
 		set st=##class(PUBGStats.Utils).SynchronizeAll()
 		quit:$$$ISERR(st)
@@ -155,13 +155,16 @@ ClassMethod GetTelemetryjson(pURL As %String, Byref json) As %Status
 	quit st
 }
 
-ClassMethod LoadMatchAndTelemetryData(pMatchId As %String) As %Status
+ClassMethod LoadMatchAndTelemetryData(pMatchId As %String, pRefresh As %Boolean = 0) As %Status
 {
 	set st=$$$OK
 	
 	w "Match and Telemetry for "_pMatchId,!
 	set st=##class(PUBGStats.Game).LoadMatchData(pMatchId)
 	quit:$$$ISERR(st) st
+	if pRefresh {
+		d ##class(PUBGStats.Telemetry).DeleteTelemetryForMatch(pMatchId)
+	}
 	set st=##class(PUBGStats.Telemetry).LoadTelemetryData(pMatchId)
 	quit:$$$ISERR(st) st
 	// Once match and telemetry have been processed, mark match as Processed

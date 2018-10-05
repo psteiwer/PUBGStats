@@ -26,7 +26,7 @@ ClassMethod AddPlayer(pPlayerID As %Integer, ByRef pPlayer As PUBGStats.Player) 
 	quit st
 }
 
-ClassMethod GetMatchesForPlayer(pPlayerNames As %String, pIdOnly As %Boolean = 0) As %Status
+ClassMethod GetMatchesForPlayer(pPlayerNames As %String, pIdOnly As %Boolean = 0, pRefresh As %Boolean = 0) As %Status
 {
 	set st=$$$OK
 	set st=##class(PUBGStats.Utils).Requestjson("/shards/pc-na/players?filter[playerNames]="_pPlayerNames,.json)
@@ -40,7 +40,7 @@ ClassMethod GetMatchesForPlayer(pPlayerNames As %String, pIdOnly As %Boolean = 0
 				continue
 			}
 			if 'pIdOnly {
-				set st=##class(PUBGStats.Utils).LoadMatchAndTelemetryData(matchId)
+				set st=##class(PUBGStats.Utils).LoadMatchAndTelemetryData(matchId,pRefresh)
 				if $$$ISERR(st) {
 					w "Match "_matchId_" encountered an error:",!
 					w $system.Status.GetErrorText(st),!
