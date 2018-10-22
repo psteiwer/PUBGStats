@@ -21,11 +21,18 @@ Property Downed As %Boolean;
 
 Index GameVictimIdx On (Game,Victim);
 
+Index GameVictimCategoryIdx On (Game,Victim,DamageTypeCategory);
 
-ClassMethod GetDamageTaken(pPlayerId, pGameId) As %Double [SQLPROC]
+
+ClassMethod GetDamageTaken(pPlayerId, pGameId, pSource = "") As %Double [SQLPROC]
 {
 	set damage=0
 	set sql="SELECT Damage FROM PUBGStats_Telemetry.PlayerDamage WHERE Game->ID = ? and Victim->ID = ?"
+	if pSource="Player" {
+		set sql=sql_" and DamageTypeCategory != 'Damage_Bluezone'"
+	} elseif pSource="Bluezone" {
+		set sql=sql_" and DamageTypeCategory = 'Damage_Bluezone'"
+	}
 	set sqlrs=##class(%SQL.Statement).%ExecDirect(,sql,pGameId,pPlayerId)
 	while sqlrs.%Next() {
 		set damage=damage+sqlrs.Damage

@@ -60,6 +60,10 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
   </measure>
   <measure name="DamageTaken" disabled="false" sourceExpression="##class(PUBGStats.Telemetry.PlayerDamage).GetDamageTaken(%source.Player,%source.Game)" aggregate="SUM" type="number" hidden="false" searchable="true">
   </measure>
+  <measure name="DamageTakenFromPlayer" disabled="false" sourceExpression="##class(PUBGStats.Telemetry.PlayerDamage).GetDamageTaken(%source.Player,%source.Game,&quot;Player&quot;)" aggregate="SUM" type="number" hidden="false" searchable="true">
+  </measure>
+  <measure name="DamageTakenFromBluezone" disabled="false" sourceExpression="##class(PUBGStats.Telemetry.PlayerDamage).GetDamageTaken(%source.Player,%source.Game,&quot;Bluezone&quot;)" aggregate="SUM" type="number" hidden="false" searchable="true">
+  </measure>
   <relationship name="Game" disabled="false" sourceProperty="Game" relatedCube="PUBGGame" inverse="GameStats" cardinality="one">
   </relationship>
   <calculatedMember name="Damage Dealt to Taken" disabled="false" dimension="Measures" valueExpression="[Measures].[DamageDealt]/[Measures].[DamageTaken]" hidden="false">
