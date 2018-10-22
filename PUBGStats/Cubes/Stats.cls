@@ -6,7 +6,7 @@ Class PUBGStats.Cubes.Stats Extends %DeepSee.CubeDefinition [ DependsOn = PUBGSt
 XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
 {
 <cube xmlns="http://www.intersystems.com/deepsee" name="PUBGStats" displayName="PUBGStats" disabled="false" abstract="false" sourceClass="PUBGStats.GameStats" countMeasureName="%COUNT" bucketSize="8" bitmapChunkInMemory="false" precompute="0" disableListingGroups="false">
-  <dimension name="Name" disabled="false" hasAll="false" allCaption="All Name" allDisplayName="Name" type="data" hidden="false" showHierarchies="default">
+  <dimension name="Name" disabled="false" hasAll="true" allCaption="All Name" allDisplayName="Name" type="data" calendar="gregorian" iKnowType="entity" hidden="false" showHierarchies="default">
     <hierarchy name="H1" disabled="false" hidden="false">
       <level name="Name" disabled="false" sourceProperty="Player.Name" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
       </level>
