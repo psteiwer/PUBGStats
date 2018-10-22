@@ -62,7 +62,7 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
   </measure>
   <relationship name="Game" disabled="false" sourceProperty="Game" relatedCube="PUBGGame" inverse="GameStats" cardinality="one">
   </relationship>
-  <calculatedMember name="Damage Delt to Taken" disabled="false" dimension="Measures" valueExpression="[Measures].[DamageDealt]/[Measures].[DamageTaken]" hidden="false">
+  <calculatedMember name="Damage Dealt to Taken" disabled="false" dimension="Measures" valueExpression="[Measures].[DamageDealt]/[Measures].[DamageTaken]" hidden="false">
   </calculatedMember>
   <listing name="Game Stats Details" disabled="false" listingType="table" fieldList="Player-&gt;Name,WinPlace As &quot;Rank&quot;,Game-&gt;GameTimeStamp,Game-&gt;GameMode,Kills,Assists,DBNOs,DamageDealt,PUBGStats_Telemetry.PlayerDamage_GetDamageTaken(Player,Game) As DamageTaken,TimeSurvived,DeathType,Game">
   </listing>
