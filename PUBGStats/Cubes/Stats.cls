@@ -36,6 +36,16 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
       </level>
     </hierarchy>
   </dimension>
+  <dimension name="SessionDate" displayName="Session Date" disabled="false" hasAll="false" allCaption="All GameTimeStamp" allDisplayName="GameTimeStamp" sourceExpression="$select($p($zdth(%source.Game.GameTimeStamp,3),&quot;,&quot;,2)&lt;43200:$zdth(%source.Game.GameTimeStamp,3)-1,1:$zdth(%source.Game.GameTimeStamp,3))" type="time" calendar="gregorian" iKnowType="entity" hidden="false" showHierarchies="default">
+    <hierarchy name="H1" disabled="false" hidden="false">
+      <level name="Year" disabled="false" timeFunction="Year" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      </level>
+      <level name="Month" disabled="false" timeFunction="MonthYear" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      </level>
+      <level name="Day" disabled="false" timeFunction="DayMonthYear" list="false" useDisplayValue="true" useAsFilter="true" hidden="false">
+      </level>
+    </hierarchy>
+  </dimension>
   <measure name="Kills" disabled="false" sourceProperty="Kills" aggregate="SUM" type="number" hidden="false" searchable="false">
   </measure>
   <measure name="Assists" disabled="false" sourceProperty="Assists" aggregate="SUM" type="number" hidden="false" searchable="false">
