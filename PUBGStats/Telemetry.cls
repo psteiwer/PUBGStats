@@ -90,6 +90,27 @@ ClassMethod ProcessTelemetryjson(Byref pJSON) As %Status
 			//w key_": "_val.character.name_" used "_val.item.itemId_". "_val.item.stackCount_" remaining",!
 		} elseif val."_T" = "LogItemEquip" {
 			//w key,!
+		} elseif val."_T" = "LogVehicleLeave" {
+			if ((val.vehicle.vehicleType="TransportAircraft") || (val.vehicle.vehicleType="Parachute")) {
+				set action=##class(PUBGStats.Telemetry.PlayerAction).%New()
+				if val.vehicle.vehicleType="Parachute" {
+					set action.Action="Land"
+				} else {
+					set action.Action="Jump"
+				}
+				do action.GameSetObjectId(matchid)
+				do action.Player.PlayerSetObjectId(val.character.accountId)
+				set action.Player.Health=val.character.health
+				set action.TimeStamp=##class(PUBGStats.Utils).ConvertTimeStamp(val."_D")
+				set location=##class(PUBGStats.Telemetry.Location).%New()
+				set location.x=val.character.location.x
+				set location.y=val.character.location.y
+				set location.z=val.character.location.z
+				set action.Player.Location=location
+				
+				set st=action.%Save()
+				quit:$$$ISERR(st)
+			}
 		}
 		
 		if '$IsObject($G(match)) {
@@ -131,6 +152,11 @@ ClassMethod DeleteTelemetryForMatch(pMatchId As %String) As %Status
 	set rs=##class(%SQL.Statement).%ExecDirect(,"DELETE FROM PUBGStats_Telemetry.LogPlayerKill WHERE Telemetry->Game->%ID=?",pMatchId)
 	If (rs.%SQLCODE<0) {
 		set st=$$$ERROR($$$GeneralError,"SQL Error ("_rs.%SQLCODE_") deleting from PUBGStats_Telemetry.LogPlayerKill. Match ID:"_pMatchId)
+		quit st
+	}
+	set rs=##class(%SQL.Statement).%ExecDirect(,"DELETE FROM PUBGStats_Telemetry.PlayerAction WHERE Game->%ID=?",pMatchId)
+	If (rs.%SQLCODE<0) {
+		set st=$$$ERROR($$$GeneralError,"SQL Error ("_rs.%SQLCODE_") deleting from PUBGStats_Telemetry.PlayerAction. Match ID:"_pMatchId)
 		quit st
 	}
 	set rs=##class(%SQL.Statement).%ExecDirect(,"DELETE FROM PUBGStats.Telemetry WHERE Game->%ID=?",pMatchId)
