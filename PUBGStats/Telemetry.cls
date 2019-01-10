@@ -134,6 +134,8 @@ ClassMethod LoadTelemetryData(pMatchId As %String) As %Status
 	set rs=##class(%SQL.Statement).%ExecDirect(,sql,pMatchId)
 	d rs.%Next()
 	if 'rs.C {
+		set st=##class(PUBGStats.Utils).StoreTelemetry(pMatchId)
+		quit:$$$ISERR(st) st
 		set st=##class(PUBGStats.Utils).GetTelemetryjson(##class(PUBGStats.Game).TelemetryURLGetStored(pMatchId),.telemetryjson)
 		quit:$$$ISERR(st) st
 		set st=##class(PUBGStats.Telemetry).ProcessTelemetryjson(.telemetryjson)

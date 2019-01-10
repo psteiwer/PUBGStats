@@ -175,6 +175,33 @@ ClassMethod LoadMatchAndTelemetryData(pMatchId As %String, pRefresh As %Boolean 
 	quit st
 }
 
+ClassMethod StoreTelemetry(pMatchId) As %Status
+{
+	set st=$$$OK
+	set sql="SELECT ID,TelemetryURL FROM PUBGStats.Game WHERE ID=?"
+	set rs=##class(%SQL.Statement).%ExecDirect(,sql,pMatchId)
+	while rs.%Next() {
+		set request=##class(%Net.HttpRequest).%New()
+		set request.Server="telemetry-cdn.playbattlegrounds.com"
+		set request.Https=1
+		set request.Port=443
+		set request.SSLConfiguration="test"
+		set st=request.Get(rs.TelemetryURL)
+		quit:$$$ISERR(st)
+		
+		set file="E:\Telemetry\Game"_rs.ID
+		set stream=##class(%Stream.FileCharacter).%New()
+		set st=stream.LinkToFile(file)
+		quit:$$$ISERR(st)
+		while 'request.HttpResponse.Data.AtEnd {
+			d stream.Write(request.HttpResponse.Data.Read())
+		}
+		set st=stream.%Save()
+		quit:$$$ISERR(st)
+	}
+	quit st
+}
+
 ClassMethod ConvertTimeStamp(pTimeStamp As %String) As %TimeStamp
 {
 	quit $system.SQL.DATEADD("hour",-3,$zdth($translate(pTimeStamp,"TZ"," "),3))
